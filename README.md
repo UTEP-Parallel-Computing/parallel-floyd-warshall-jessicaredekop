@@ -1,30 +1,41 @@
-# Parallel-Floyd-Warshall
-
-For this assignment you will write a parallel all pairs shortest paths 
+# Parallel-Computing-Floyd-Warshall
+This assignment implements a parallel program with MPI that calculates all pairs shortest paths 
 algorithm using the Floyd Warshall algorithm. The program will traverse 
-an adjacency matrix and determine the shortest path between each pair 
-of nodes. You should have functions for determining the starting and 
-stopping row for a particular process. 
+an adjacency matrix and determine the shortest path between each pair of nodes.
 
-https://en.wikipedia.org/wiki/Floyd%E2%80%93Warshall_algorithm
+The code uses the pseudocode from the examples provided in mpiPythonExamples.
 
-fwTest.txt is an example input matrix, the result matrix is fwTestResult.txt
+It will display the last index of the input and output arrays, and fulfills the other requirements for the lab.
+I had the same result in the last lab. 
+## Instructions
+Run: mpirun --oversubscribe -N <#threads> python floydwarshall.py
+where <#threads> is the number of threads used.
 
-Hints: 
+## Issues encountered:
+Encountered an issue where the array was initialized as type string, so the calculations were concatenating onto each other. This lead to an incorrect result with large numbers.
 
-* It may be easier to load the files containing text before entering the processing region 
-* You will have to work out how to break apart the work, otherwise each mpi program will be performing duplicate work 
-* Ideally the rows are split between threads, for example if there are 4 rows and 2 threads thread 0 gets rows 1 and 2 and thread 2 gets 3 and 4
-* Example of a serial floyd warshall https://www-m9.ma.tum.de/graph-algorithms/spp-floyd-warshall/index_en.html
+## How I overcame some problems:
+Office hours
 
-## Requirements 
+## Bugs in program:
+Mpi will run through all parts of the code multiple times.
 
-The code should use reasonable decomposition, use reasonable variable names,
-and should generally follow good coding standards. 
-Important, your assignment should include your name. 
+## How long it took me to complete this assignment:
+4 hours
 
-The program shall use the floyd warshal algorithm 
-The program shall use mpi to do the work in parallel 
-The program shall use an adjacency matrix 
-The program shall split work among multiple mpi processes 
-The program shall display a portion of the input and final matrices 
+## Performance Measurements:
+Serial: 0.22s
+
+
+## Increasing # of Threads:
+2 threads: 0.14s
+
+4 threads: 0.19s
+
+8 threads: 0.26s
+
+## Observations:
+I had the same result in the last lab. Running python floydwarshall.py without using mpi returns an average calculation time of 0.22s. By using mpi and running it with 2 threads, the time decreased by an average of 36%. Once we use 4 threads the time consumed by the program increased, and using 8 threads took much longer than the serial version. The same thing has happened in previous labs, I believe this is because the time for the system to allocate the threads and parse the matrix substantially increases the time after 4 threads.
+
+## Output of cpuInfoDump.sh:
+Intel(R) Core(TM) i7-7560U CPU @ 2.40GHz 4 -- 36 -- 216
